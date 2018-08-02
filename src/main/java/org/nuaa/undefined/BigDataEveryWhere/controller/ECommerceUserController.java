@@ -1,6 +1,7 @@
 package org.nuaa.undefined.BigDataEveryWhere.controller;
 
 import org.nuaa.undefined.BigDataEveryWhere.entity.ECommerceUserEntity;
+import org.nuaa.undefined.BigDataEveryWhere.entity.Response;
 import org.nuaa.undefined.BigDataEveryWhere.entity.ResponseEntity;
 import org.nuaa.undefined.BigDataEveryWhere.service.ECommerceUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ECommerceUserController {
     public @ResponseBody
     ResponseEntity<ECommerceUserEntity> listMoneyTopData(int page, int limit) {
         return new ResponseEntity<>(
-                ResponseEntity.GET_DATA_SUCCESS_CODE,
+                Response.GET_DATA_SUCCESS_CODE,
                 "获取数据成功",
                 eCommerceUserService.listSumMoneyTopUsers()
         );
@@ -43,7 +44,7 @@ public class ECommerceUserController {
     public @ResponseBody
     ResponseEntity<ECommerceUserEntity> listActiveTopData(int page, int limit) {
         return new ResponseEntity<>(
-                ResponseEntity.GET_DATA_SUCCESS_CODE,
+                Response.GET_DATA_SUCCESS_CODE,
                 "获取数据成功",
                 eCommerceUserService.listActiveTopUsers()
         );
@@ -59,7 +60,7 @@ public class ECommerceUserController {
     public @ResponseBody
     ResponseEntity<ECommerceUserEntity> listData(int page, int limit) {
         return new ResponseEntity<ECommerceUserEntity>(
-            ResponseEntity.GET_DATA_SUCCESS_CODE, "获取数据成功", eCommerceUserService.listData(page, limit)
+            Response.GET_DATA_SUCCESS_CODE, "获取数据成功", eCommerceUserService.listData(page, limit)
         );
     }
 }

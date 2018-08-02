@@ -1,48 +1,44 @@
 package org.nuaa.undefined.BigDataEveryWhere.mr.ecommerce;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapred.lib.db.DBConfiguration;
+import org.apache.hadoop.mapred.lib.db.DBOutputFormat;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.nuaa.undefined.BigDataEveryWhere.mr.ecommerce.bean.EComMonthBean;
+import org.nuaa.undefined.BigDataEveryWhere.mr.ecommerce.bean.ECommerceYearBean;
 
 import java.io.IOException;
 
 /**
  * @Author: ToMax
  * @Description:
- * Job Name : ConsumeYearDistribution
- * input : /user/root/project/e-commerce-clean/part-r-00000
- * output : /user/root/project/e-commerce-consume-year-distribution
- * function : 按照年份统计信息，包括年交易额、年交易次数、年成功交易次数、年失败交易次数、以及按照性别的分布
- * overview :
- *          取时间的年份作为主键
- * @Date: Created in 2018/7/27 11:47
+ * @Date: Created in 2018/8/2 21:27
  */
-public class ConsumeYearDistributionJob {
+public class OutputECommerceMonthToDBJob {
     public static String inputPathString = "project/e-commerce-clean/part-r-00000";
-    public static String outputPathString = "project/e-commerce-consume-year-distribution";
-    public static String jobName = "consume-year-distribution";
+    public static String outputPathString = "project/e-commerce-consume-month-distribution";
+    public static String jobName = "output-month-distribution";
 
-    public static class ConsumeYearDistributioMapper extends Mapper<LongWritable, Text, Text, Text> {
+    public static class OutputECommerceMonthMapper extends Mapper<LongWritable, Text, Text, Text> {
         private Text outputKey = new Text();
         private Text outputValue = new Text();
         @Override
         protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
             String [] data = value.toString().split("\\s+");
-            outputKey.set(data[6].split("-")[0]);
+            outputKey.set(data[6].split("-")[1]);
             outputValue.set(data[4]+"|"+data[7]+"|"+data[8]);
             context.write(outputKey, outputValue);
         }
     }
 
-    public static class ConsumeYearDistributionReducer extends Reducer<Text, Text, Text, Text> {
-        private Text outputValue = new Text();
+    public static class OutputECommerceMonthReducer extends Reducer<Text, Text, EComMonthBean, NullWritable> {
         @Override
         protected void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             int sumConsumeCount = 0;
@@ -53,6 +49,7 @@ public class ConsumeYearDistributionJob {
             double sumConsumeMoney = 0;
             double manConsumeMoney = 0;
             double womanConsumeMoney = 0;
+            double maxMoney = 0;
             for (Text in : values) {
                 String [] data = in.toString().split("\\|");
                 double money = Double.parseDouble(data[1]);
@@ -61,6 +58,7 @@ public class ConsumeYearDistributionJob {
                 sumConsumeMoney += success * money;
                 successConsumeCount += success;
                 failConsumeCount += success == 1 ? 0 : 1;
+                maxMoney = Math.max(maxMoney, success * money);
                 if (ConstCommerceValue.MAN_SEX.equals(data[0])) {
                     manConsumeCount++;
                     manConsumeMoney += success * money;
@@ -69,27 +67,31 @@ public class ConsumeYearDistributionJob {
                     womanConsumeMoney += success * money;
                 }
             }
-            outputValue.set(sumConsumeCount+"\t"+manConsumeCount+"\t"+womanConsumeCount+"\t"+
-                            sumConsumeMoney+"\t"+manConsumeMoney+"\t"+womanConsumeMoney+"\t"+
-                            successConsumeCount+"\t"+failConsumeCount);
-            context.write(key, outputValue);
+            context.write(new EComMonthBean(Integer.parseInt(key.toString()),
+                    sumConsumeCount, successConsumeCount, failConsumeCount, sumConsumeMoney,
+                    manConsumeMoney, womanConsumeMoney, maxMoney, manConsumeCount, womanConsumeCount
+            ), NullWritable.get());
         }
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         Configuration conf = new Configuration();
         conf.set("fs.defaultFS", "hdfs://master:9000/");
+        DBConfiguration.configureDB(conf, "com.mysql.jdbc.Driver",
+                "jdbc:mysql://192.168.163.101:3306/big_data??characterEncoding=utf8&useSSL=false",
+                "root", "123456");
         Job job = Job.getInstance(conf, jobName);
-        job.setMapperClass(ConsumeYearDistributioMapper.class);
-        job.setReducerClass(ConsumeYearDistributionReducer.class);
+        job.setMapperClass(OutputECommerceMonthMapper.class);
+        job.setReducerClass(OutputECommerceMonthReducer.class);
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(Text.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(Text.class);
+        job.setOutputKeyClass(EComMonthBean.class);
+        job.setOutputValueClass(NullWritable.class);
         FileInputFormat.addInputPath(job, new Path(inputPathString));
-        Path outputPath = new Path(outputPathString);
-        FileSystem.get(conf).delete(outputPath, true);
-        FileOutputFormat.setOutputPath(job, outputPath);
+        DBOutputFormat.setOutput(job, "e_commerce_month",
+                "month","buy_sum","success_sum","fail_sum","money_sum",
+                "man_money_sum","woman_money_sum","man_buy_count",
+                "woman_buy_count", "max_money");
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }

@@ -1,15 +1,13 @@
 package org.nuaa.undefined.BigDataEveryWhere.entity;
 
-import java.util.List;
-
 /**
  * @Author: ToMax
  * @Description:
- * @Date: Created in 2018/8/2 17:30
+ * @Date: Created in 2018/8/2 19:40
  */
-public class ChartListElementEntity<T> extends Chart{
+public class Element<T> {
     private String name;
-    private List<T> value;
+    private T value;
 
     public String getName() {
         return name;
@@ -19,11 +17,11 @@ public class ChartListElementEntity<T> extends Chart{
         this.name = name;
     }
 
-    public List<T> getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setValue(List<T> value) {
+    public void setValue(T value) {
         this.value = value;
     }
 }

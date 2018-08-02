@@ -1,5 +1,6 @@
 package org.nuaa.undefined.BigDataEveryWhere.service;
 
+import org.nuaa.undefined.BigDataEveryWhere.entity.EComYearDistributionEntity;
 import org.nuaa.undefined.BigDataEveryWhere.entity.ECommerceLogEntity;
 
 import java.util.List;
@@ -15,4 +16,11 @@ public interface ECommerceLogService {
      * @return
      */
     public List<ECommerceLogEntity> listMaxConsumeTopLog();
+
+    /**
+     * 获取购物车放弃率数据
+     * @return
+     */
+    public List<EComYearDistributionEntity> listShoppingGiveUpData();
+
 }

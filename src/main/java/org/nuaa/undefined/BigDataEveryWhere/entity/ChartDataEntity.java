@@ -1,30 +1,23 @@
 package org.nuaa.undefined.BigDataEveryWhere.entity;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: ToMax
  * @Description:
- * @Date: Created in 2018/8/2 17:27
+ * @Date: Created in 2018/8/2 19:32
  */
-public class ChartDataEntity<T extends Chart>{
-    private List<T> series;
-    private List<String> xAxis;
+public class ChartDataEntity extends Response{
+    private Set<String> xAxis;
     private List<String> yAxis;
+    private List<Element> dataList;
 
-    public List<T> getSeries() {
-        return series;
-    }
-
-    public void setSeries(List<T> series) {
-        this.series = series;
-    }
-
-    public List<String> getxAxis() {
+    public Set<String> getxAxis() {
         return xAxis;
     }
 
-    public void setxAxis(List<String> xAxis) {
+    public void setxAxis(Set<String> xAxis) {
         this.xAxis = xAxis;
     }
 
@@ -34,5 +27,13 @@ public class ChartDataEntity<T extends Chart>{
 
     public void setyAxis(List<String> yAxis) {
         this.yAxis = yAxis;
+    }
+
+    public List<Element> getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List<Element> dataList) {
+        this.dataList = dataList;
     }
 }

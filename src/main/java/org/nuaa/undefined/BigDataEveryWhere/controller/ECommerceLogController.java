@@ -1,6 +1,8 @@
 package org.nuaa.undefined.BigDataEveryWhere.controller;
 
+import org.nuaa.undefined.BigDataEveryWhere.entity.EComYearDistributionEntity;
 import org.nuaa.undefined.BigDataEveryWhere.entity.ECommerceLogEntity;
+import org.nuaa.undefined.BigDataEveryWhere.entity.Response;
 import org.nuaa.undefined.BigDataEveryWhere.entity.ResponseEntity;
 import org.nuaa.undefined.BigDataEveryWhere.service.ECommerceLogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,23 @@ public class ECommerceLogController {
     public @ResponseBody
     ResponseEntity<ECommerceLogEntity> listMoneyTopData(int page, int limit) {
         return new ResponseEntity<>(
-                ResponseEntity.GET_DATA_SUCCESS_CODE,
+                Response.GET_DATA_SUCCESS_CODE,
                 "获取数据成功",
                 eCommerceLogService.listMaxConsumeTopLog()
+        );
+    }
+
+    /**
+     * 获取年份购弃率
+     * @return
+     */
+    @RequestMapping(value = "/giveRate", method = {RequestMethod.GET, RequestMethod.POST})
+    public @ResponseBody
+    ResponseEntity<EComYearDistributionEntity> giveRate() {
+        return new ResponseEntity<>(
+                Response.GET_DATA_SUCCESS_CODE,
+                "获取数据成功",
+                eCommerceLogService.listShoppingGiveUpData()
         );
     }
 }
