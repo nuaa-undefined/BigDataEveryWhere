@@ -38,6 +38,7 @@ public class ECommerceUserEntity {
      * 用户归属省级行政区编号
      */
     private String place;
+    private String placeName;
     /**
      * 最早活跃时间
      */
@@ -113,5 +114,13 @@ public class ECommerceUserEntity {
 
     public void setEarliestRecord(String earliestRecord) {
         this.earliestRecord = earliestRecord;
+    }
+
+    public String getPlaceName() {
+        return placeName;
+    }
+
+    public void setPlaceName(String placeName) {
+        this.placeName = placeName;
     }
 }

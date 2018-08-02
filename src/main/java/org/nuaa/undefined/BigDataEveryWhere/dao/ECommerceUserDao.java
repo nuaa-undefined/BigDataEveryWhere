@@ -17,4 +17,18 @@ public interface ECommerceUserDao {
      * @return
      */
     public List<ECommerceUserEntity> listData(String sql, Object[] keys);
+
+    /**
+     * 统计用户个数
+     * @return
+     */
+    public int count();
+
+    /**
+     * 条件限制统计
+     * @param sql
+     * @param keys
+     * @return
+     */
+    public int count(String sql, Object[] keys);
 }

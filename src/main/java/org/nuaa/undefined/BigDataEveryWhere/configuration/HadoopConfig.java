@@ -16,13 +16,13 @@ import java.net.URI;
 @Configuration
 @EnableWebMvc
 public class HadoopConfig {
-    @Bean
-    public org.apache.hadoop.conf.Configuration configuration() {
-        return new org.apache.hadoop.conf.Configuration();
-    }
-
-    @Bean
-    public FileSystem fileSystem(org.apache.hadoop.conf.Configuration configuration) throws IOException, InterruptedException {
-        return FileSystem.get(URI.create("hdfs://master:9000/"), configuration, "root");
-    }
+//    @Bean
+//    public org.apache.hadoop.conf.Configuration configuration() {
+//        return new org.apache.hadoop.conf.Configuration();
+//    }
+//
+//    @Bean
+//    public FileSystem fileSystem(org.apache.hadoop.conf.Configuration configuration) throws IOException, InterruptedException {
+//        return FileSystem.get(URI.create("hdfs://master:9000/"), configuration, "root");
+//    }
 }
