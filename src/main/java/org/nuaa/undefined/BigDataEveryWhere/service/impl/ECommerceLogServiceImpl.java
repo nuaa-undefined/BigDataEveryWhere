@@ -39,6 +39,10 @@ public class ECommerceLogServiceImpl implements ECommerceLogService{
                 .map(x -> {
                     x.setGiveUpRate((double) (x.getFailSum() / (double)x.getBuySum()));
                     return x;
-                }).collect(Collectors.toList());
+                })
+                .sorted((x, y) -> new Integer(Integer.parseInt(x.getYear())).compareTo(
+                        new Integer(Integer.parseInt(y.getYear()))
+                ))
+                .collect(Collectors.toList());
     }
 }

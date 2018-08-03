@@ -18,4 +18,9 @@ public class ECommerceLogDaoImpl extends DaoHelper implements ECommerceLogDao{
     public List<ECommerceLogEntity> listData(String sql, Object[] keys) {
         return query(sql, keys, ECommerceLogEntity.class);
     }
+
+    @Override
+    public int count(String sql, Object[] keys) {
+        return getJdbcTemplate().queryForObject(sql, keys, Integer.class);
+    }
 }

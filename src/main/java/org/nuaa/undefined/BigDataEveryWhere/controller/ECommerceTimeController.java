@@ -1,5 +1,6 @@
 package org.nuaa.undefined.BigDataEveryWhere.controller;
 
+import org.nuaa.undefined.BigDataEveryWhere.entity.EComMonthDistributionEntity;
 import org.nuaa.undefined.BigDataEveryWhere.entity.EComYearDistributionEntity;
 import org.nuaa.undefined.BigDataEveryWhere.entity.Response;
 import org.nuaa.undefined.BigDataEveryWhere.entity.ResponseEntity;
@@ -30,6 +31,26 @@ public class ECommerceTimeController {
                 Response.GET_DATA_SUCCESS_CODE,
                 "获取数据成功",
                 eCommerceTimeDistributionService.listYearMoney()
+        );
+    }
+
+    @GetMapping("/sexConsumeCount")
+    public @ResponseBody
+    ResponseEntity<EComYearDistributionEntity> sexConsumeCount() {
+        return new ResponseEntity<>(
+                Response.GET_DATA_SUCCESS_CODE,
+                "获取数据成功",
+                eCommerceTimeDistributionService.listYearSexCountDistribute()
+        );
+    }
+
+    @GetMapping("/monthDistribution")
+    public @ResponseBody
+    ResponseEntity<EComMonthDistributionEntity> monthContribution() {
+        return new ResponseEntity<>(
+                Response.GET_DATA_SUCCESS_CODE,
+                "获取数据成功",
+                eCommerceTimeDistributionService.listMonthSexCountDistribute()
         );
     }
 

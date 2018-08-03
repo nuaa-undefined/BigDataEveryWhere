@@ -17,4 +17,12 @@ public interface ECommerceLogDao {
      * @return
      */
     public List<ECommerceLogEntity> listData(String sql, Object[] keys);
+
+    /**
+     * 计数
+     * @param sql
+     * @param keys
+     * @return
+     */
+    public int count(String sql, Object[] keys);
 }

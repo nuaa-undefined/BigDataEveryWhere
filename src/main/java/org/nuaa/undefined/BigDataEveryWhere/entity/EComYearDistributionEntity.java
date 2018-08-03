@@ -48,6 +48,34 @@ public class EComYearDistributionEntity {
 
     private Double giveUpRate;
 
+    private int manUserNum;
+    private int womanUserNum;
+    private int sumUserNum;
+
+    public int getManUserNum() {
+        return manUserNum;
+    }
+
+    public void setManUserNum(int manUserNum) {
+        this.manUserNum = manUserNum;
+    }
+
+    public int getWomanUserNum() {
+        return womanUserNum;
+    }
+
+    public void setWomanUserNum(int womanUserNum) {
+        this.womanUserNum = womanUserNum;
+    }
+
+    public int getSumUserNum() {
+        return sumUserNum;
+    }
+
+    public void setSumUserNum(int sumUserNum) {
+        this.sumUserNum = sumUserNum;
+    }
+
     public String getYear() {
         return year;
     }

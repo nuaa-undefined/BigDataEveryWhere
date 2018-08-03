@@ -1,5 +1,6 @@
 package org.nuaa.undefined.BigDataEveryWhere.service.impl;
 
+import org.nuaa.undefined.BigDataEveryWhere.dao.ECommerceLogDao;
 import org.nuaa.undefined.BigDataEveryWhere.dao.ECommerceMonthDistributionDao;
 import org.nuaa.undefined.BigDataEveryWhere.dao.ECommerceUserDao;
 import org.nuaa.undefined.BigDataEveryWhere.dao.ECommerceYearDistributionDao;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @Author: ToMax
@@ -28,11 +30,37 @@ public class ECommerceTimeDistributionServiceImpl implements ECommerceTimeDistri
     private ECommerceYearDistributionDao eCommerceYearDistributionDao;
     @Autowired
     private ECommerceMonthDistributionDao eCommerceMonthDistributionDao;
+    @Autowired
+    private ECommerceLogDao eCommerceLogDao;
 
     @Override
     public List<EComYearDistributionEntity> listYearMoney() {
         String sql = "select year, money_sum from e_commerce_year";
-        return eCommerceYearDistributionDao.listData(sql, new Object[]{});
+        return eCommerceYearDistributionDao.listData(sql, new Object[]{}).stream()
+                .sorted((x, y) ->new Integer(Integer.parseInt(x.getYear())).compareTo(
+                        new Integer(Integer.parseInt(y.getYear())))).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EComMonthDistributionEntity> listMonthSexCountDistribute() {
+        String sql = "select * from e_commerce_month order by month";
+        return eCommerceMonthDistributionDao.listData(sql, new Object[]{});
+    }
+
+    @Override
+    public List<EComYearDistributionEntity> listYearSexCountDistribute() {
+        String sql = "select year, man_buy_count, woman_buy_count, money_sum, man_money_sum, woman_money_sum from e_commerce_year order by year";
+        String sqlCount = "select count(*) from e_commerce_log where beg_time like ?";
+        String sqlCountMan = "select count(*) from e_commerce_log where sex = 1 and beg_time like ?";
+        String sqlCountWoman = "select count(*) from e_commerce_log where sex = 2 and beg_time like ?";
+        return eCommerceYearDistributionDao.listData(sql, new Object[]{}).stream()
+                .map(x -> {
+                    Object[] keys = new Object[]{x.getYear() + "%"};
+                    x.setSumUserNum(eCommerceLogDao.count(sqlCount, keys));
+                    x.setManUserNum(eCommerceUserDao.count(sqlCountMan, keys));
+                    x.setWomanUserNum(eCommerceUserDao.count(sqlCountWoman, keys));
+                    return x;
+                }).collect(Collectors.toList());
     }
 
     @Override
@@ -76,4 +104,6 @@ public class ECommerceTimeDistributionServiceImpl implements ECommerceTimeDistri
         eCommerceMonthDistributionDao.updateYearData(updateMonthSql, eComMonthDistributionEntities);
         eCommerceYearDistributionDao.updateYearData(updateYearSql, result);
     }
+
+
 }

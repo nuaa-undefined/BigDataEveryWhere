@@ -1,5 +1,6 @@
 package org.nuaa.undefined.BigDataEveryWhere.service;
 
+import org.nuaa.undefined.BigDataEveryWhere.entity.EComMonthDistributionEntity;
 import org.nuaa.undefined.BigDataEveryWhere.entity.EComYearDistributionEntity;
 
 import java.util.List;
@@ -16,6 +17,18 @@ public interface ECommerceTimeDistributionService {
      * @return
      */
     public List<EComYearDistributionEntity> listYearMoney();
+
+    /**
+     * 获取各年男女消费分布
+     * @return
+     */
+    public List<EComYearDistributionEntity> listYearSexCountDistribute();
+
+    /**
+     * 获取按月男女消费分布
+     * @return
+     */
+    public List<EComMonthDistributionEntity> listMonthSexCountDistribute();
 
 
     public void updateData();
