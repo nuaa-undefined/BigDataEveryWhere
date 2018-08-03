@@ -92,7 +92,7 @@ public class HeroUserServiceImpl implements HeroUserService{
         List<HeroLogEntity> heroLogEntities = heroLogDao.listData(sql, new Object[]{id});
         Map<String, HeroEntity> heroEntityMap = new HashMap<>();
         for (HeroLogEntity in : heroLogEntities) {
-            if (heroEntityMap.containsKey(in.getHeroName())) {
+            if (!heroEntityMap.containsKey(in.getHeroName())) {
                 HeroEntity hero = heroDao.listData("select * from hero where name = ?", new Object[]{in.getHeroName()}).get(0);
                 if (in.getStatus() == 1) {
                     hero.setWinNum(1);
@@ -110,6 +110,12 @@ public class HeroUserServiceImpl implements HeroUserService{
                 }
             }
         }
-        return null;
+        List<HeroEntity> heroEntities = new ArrayList<>();
+        for (Map.Entry<String, HeroEntity> entityEntry : heroEntityMap.entrySet()) {
+            heroEntities.add(entityEntry.getValue());
+        }
+        heroEntities = heroEntities.stream().
+                sorted((x, y) -> x.getName().compareTo(y.getName())).collect(Collectors.toList());
+        return heroEntities;
     }
 }
