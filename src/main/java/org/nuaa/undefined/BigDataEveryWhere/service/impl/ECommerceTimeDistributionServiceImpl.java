@@ -30,6 +30,12 @@ public class ECommerceTimeDistributionServiceImpl implements ECommerceTimeDistri
     private ECommerceMonthDistributionDao eCommerceMonthDistributionDao;
 
     @Override
+    public List<EComYearDistributionEntity> listYearMoney() {
+        String sql = "select year, money_sum from e_commerce_year";
+        return eCommerceYearDistributionDao.listData(sql, new Object[]{});
+    }
+
+    @Override
     public void updateData() {
         String sql = "select * from e_commerce_user";
         String sqlYear = "select * from e_commerce_year";

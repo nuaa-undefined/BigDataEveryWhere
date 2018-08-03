@@ -1,5 +1,8 @@
 package org.nuaa.undefined.BigDataEveryWhere.controller;
 
+import org.nuaa.undefined.BigDataEveryWhere.entity.EComYearDistributionEntity;
+import org.nuaa.undefined.BigDataEveryWhere.entity.Response;
+import org.nuaa.undefined.BigDataEveryWhere.entity.ResponseEntity;
 import org.nuaa.undefined.BigDataEveryWhere.service.ECommerceTimeDistributionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,10 +23,20 @@ public class ECommerceTimeController {
     @Autowired
     private ECommerceTimeDistributionService eCommerceTimeDistributionService;
 
-    @GetMapping("/update")
+    @GetMapping("/yearMoney")
     public @ResponseBody
-    String update() {
-        eCommerceTimeDistributionService.updateData();
-        return "success";
+    ResponseEntity<EComYearDistributionEntity> yearMoney() {
+        return new ResponseEntity<>(
+                Response.GET_DATA_SUCCESS_CODE,
+                "获取数据成功",
+                eCommerceTimeDistributionService.listYearMoney()
+        );
     }
+
+//    @GetMapping("/update")
+//    public @ResponseBody
+//    String update() {
+//        eCommerceTimeDistributionService.updateData();
+//        return "success";
+//    }
 }
