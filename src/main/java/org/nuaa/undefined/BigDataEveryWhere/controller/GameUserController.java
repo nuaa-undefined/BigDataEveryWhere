@@ -97,7 +97,7 @@ public class GameUserController {
         );
     }
 
-    //用户行为信息提要
+    //用户留存信息提要
     @RequestMapping(value = "/gameRetentionInfo",method = {RequestMethod.GET,RequestMethod.POST})
     public @ResponseBody
     ResponseEntity<GameAllTwoEntity> gameRetentionInfoData(){

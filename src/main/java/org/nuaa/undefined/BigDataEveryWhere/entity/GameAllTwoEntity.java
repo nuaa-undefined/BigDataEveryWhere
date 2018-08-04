@@ -8,7 +8,7 @@ package org.nuaa.undefined.BigDataEveryWhere.entity;
 public class GameAllTwoEntity {
     private String osRatio;     //操作系统使用比
     private long averLoginPersonNum;//总人均登陆时长
-    private long averLoginTimesNum;//总此君登陆时长
+    private long averLoginTimesNum;//总次均登陆时长
     private String highestTimesDay;//次均时长最高的一天
     private String averRetentionRate;//平均留存率
     private String highestRetentionDay;//最高留存率

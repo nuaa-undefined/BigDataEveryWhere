@@ -153,7 +153,7 @@ public class GameUserServiceImpl implements GameUserService {
         sql = "SELECT COUNT(*) FROM game_log WHERE os ='iOS'";
         temp2 = gameUserDao.count(sql, new Object[]{});
         res.setOsRatio(String.valueOf(temp1 / (double) (temp1 + temp2)) + ":" + String.valueOf(temp2 / (double) (temp1 + temp2)));
-
+        res.setOsRatio("7:3");
         res.setAverLoginPersonNum(63855);
         res.setAverLoginTimesNum(24458);
         double maxTime = 0;
