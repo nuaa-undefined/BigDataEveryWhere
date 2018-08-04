@@ -46,7 +46,7 @@ public class ECommerceGoodsController {
         );
     }
 
-    //获取女性购买率最高的商品列表(top10)
+    //获取男性购买率最高的商品列表(top10)
     @RequestMapping(value = "/malePurchasedTopGoodsList",method = {RequestMethod.GET,RequestMethod.POST})
     public @ResponseBody
     ResponseEntity <ECommerceGoodsEntity> listMalePurchasedTopData(){
