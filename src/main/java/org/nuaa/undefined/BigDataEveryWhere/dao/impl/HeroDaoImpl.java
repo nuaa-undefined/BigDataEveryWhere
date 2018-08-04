@@ -18,4 +18,19 @@ public class HeroDaoImpl extends DaoHelper implements HeroDao{
     public List<HeroEntity> listData(String sql, Object[] keys) {
         return query(sql, keys, HeroEntity.class);
     }
+
+    @Override
+    public int count(String sql, Object[] keys) {
+        return getJdbcTemplate().queryForObject(sql, keys, Integer.class);
+    }
+
+    @Override
+    public String getHeroName(String sql, Object[] keys) {
+        return getJdbcTemplate().queryForObject(sql, keys, String.class);
+    }
+
+    @Override
+    public Double getSumRate(String sql) {
+        return getJdbcTemplate().queryForObject(sql, Double.class);
+    }
 }

@@ -16,6 +16,24 @@ public class HeroEntity {
     private List<Integer> labelWinNum;
     private List<HeroUserEntity> top3Users;
     private Double useRate;
+    private Integer useSum;
+    private Double winRate;
+
+    public Double getWinRate() {
+        return winRate;
+    }
+
+    public void setWinRate(Double winRate) {
+        this.winRate = winRate;
+    }
+
+    public Integer getUseSum() {
+        return useSum;
+    }
+
+    public void setUseSum(Integer useSum) {
+        this.useSum = useSum;
+    }
 
     public String getName() {
         return name;

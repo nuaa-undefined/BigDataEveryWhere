@@ -118,4 +118,10 @@ public class HeroUserServiceImpl implements HeroUserService{
                 sorted((x, y) -> x.getName().compareTo(y.getName())).collect(Collectors.toList());
         return heroEntities;
     }
+
+    @Override
+    public List<HeroUserEntity> getStarUsers(int page, int limit) {
+        String sql = "select id, (win_num+fail_num) as sum_num, win_num/ (win_num+fail_num) as win_rate from hero_user where (win_num + fail_num) > 50 order by win_num / (win_num + fail_num) desc limit 10";
+        return heroUserDao.listData(sql, new Object[]{});
+    }
 }

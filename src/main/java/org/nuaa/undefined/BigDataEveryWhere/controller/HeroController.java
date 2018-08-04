@@ -35,4 +35,14 @@ public class HeroController {
                         Response.GET_DATA_SUCCESS_CODE, "获取数据成功", heroEntities
                 ) : new ResponseEntity<>(400, "英雄不存在", 0, null);
     }
+
+    @GetMapping("/getHeroUseRate")
+    public @ResponseBody
+    ResponseEntity<HeroEntity> getHeroUseRate(String name) {
+        return new ResponseEntity<>(
+                Response.GET_DATA_SUCCESS_CODE, "获取数据成功", heroService.getHeroUseRate()
+        );
+    }
+
+
 }

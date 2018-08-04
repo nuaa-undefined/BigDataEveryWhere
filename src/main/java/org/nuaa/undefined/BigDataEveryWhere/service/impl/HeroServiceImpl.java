@@ -89,4 +89,16 @@ public class HeroServiceImpl implements HeroService{
         }
         return heroUserEntities;
     }
+
+    @Override
+    public List<HeroEntity> getHeroUseRate() {
+        String sql = "select name, (win_num + fail_num) as use_sum, win_num / (win_num + fail_num) as win_rate from hero order by use_sum desc";
+        return heroDao.listData(sql, new Object[]{});
+    }
+
+    @Override
+    public List<HeroEntity> getStarHeroList() {
+        List<HeroLogEntity> heroLogEntities = heroLogDao.listData("select * from hero_log", new Object[]{});
+        return null;
+    }
 }

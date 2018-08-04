@@ -54,4 +54,10 @@ public class HeroUserController {
                         new ArrayList<>(heroEntities.subList(limit * (page - 1), heroEntities.size()))
                 );
     }
+
+    @GetMapping("/getStarUsers")
+    public @ResponseBody
+    ResponseEntity<HeroUserEntity> getStarUsers(int page, int limit) {
+        return new ResponseEntity<>(Response.GET_DATA_SUCCESS_CODE, "获取数据成功", heroUserService.getStarUsers(page, limit));
+    }
 }

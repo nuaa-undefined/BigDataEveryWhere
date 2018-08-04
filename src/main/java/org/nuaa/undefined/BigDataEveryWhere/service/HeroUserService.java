@@ -26,4 +26,6 @@ public interface HeroUserService {
      * @return
      */
     public List<HeroEntity> getHeroes(int id, int page, int limit);
+
+    public List<HeroUserEntity> getStarUsers(int page, int limit);
 }

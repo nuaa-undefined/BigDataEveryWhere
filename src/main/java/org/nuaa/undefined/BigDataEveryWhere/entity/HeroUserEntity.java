@@ -16,6 +16,15 @@ public class HeroUserEntity {
     private List<Integer> labelUseNum;
     private List<Integer> labelWinNum;
     private List<HeroEntity> top3Heroes;
+    private int sumNum;
+
+    public int getSumNum() {
+        return sumNum;
+    }
+
+    public void setSumNum(int sumNum) {
+        this.sumNum = sumNum;
+    }
 
     public Integer getId() {
         return id;

@@ -12,4 +12,5 @@ import java.util.List;
 public interface HeroUserDao {
     public List<HeroUserEntity> listData(String sql, Object[] keys);
     public HeroUserEntity queryData(String sql, Object[] keys);
+    public int count(String sql, Object[] keys);
 }

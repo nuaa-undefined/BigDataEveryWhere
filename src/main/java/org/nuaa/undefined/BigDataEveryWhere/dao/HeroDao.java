@@ -11,4 +11,7 @@ import java.util.List;
  */
 public interface HeroDao {
     public List<HeroEntity> listData(String sql, Object[] keys);
+    public int count(String sql, Object[] keys);
+    public String getHeroName(String sql, Object[] keys);
+    public Double getSumRate(String sql);
 }

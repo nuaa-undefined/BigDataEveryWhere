@@ -16,4 +16,8 @@ public interface HeroService {
      * @return
      */
     public List<HeroEntity> getHeroInfo(String heroName);
+
+    public List<HeroEntity> getHeroUseRate();
+
+    public List<HeroEntity> getStarHeroList();
 }

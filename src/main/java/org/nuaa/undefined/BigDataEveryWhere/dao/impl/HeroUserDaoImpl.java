@@ -22,4 +22,9 @@ public class HeroUserDaoImpl extends DaoHelper implements HeroUserDao {
     public HeroUserEntity queryData(String sql, Object[] keys) {
         return getJdbcTemplate().queryForObject(sql, keys, HeroUserEntity.class);
     }
+
+    @Override
+    public int count(String sql, Object[] keys) {
+        return getJdbcTemplate().queryForObject(sql, keys, Integer.class);
+    }
 }
