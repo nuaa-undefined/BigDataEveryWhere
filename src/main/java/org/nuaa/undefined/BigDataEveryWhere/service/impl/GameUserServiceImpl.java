@@ -172,4 +172,11 @@ public class GameUserServiceImpl implements GameUserService {
         res.setHighestRetentionDay("47.87%");
         return res;
     }
+
+    @Override
+    public List<GameUserEntity> getUserInfo(String id ) {
+        String sql = "SELECT * FROM game_user WHERE id = '" + id + "'";
+        List<GameUserEntity> res = gameUserDao.listData(sql,new Object[]{});
+        return res.size() == 0 ? null:res;
+    }
 }

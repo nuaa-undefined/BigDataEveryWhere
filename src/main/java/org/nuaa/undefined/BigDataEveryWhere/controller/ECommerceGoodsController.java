@@ -1,6 +1,7 @@
 package org.nuaa.undefined.BigDataEveryWhere.controller;
 
 import org.nuaa.undefined.BigDataEveryWhere.entity.ECommerceGoodsEntity;
+import org.nuaa.undefined.BigDataEveryWhere.entity.GameUserEntity;
 import org.nuaa.undefined.BigDataEveryWhere.entity.Response;
 import org.nuaa.undefined.BigDataEveryWhere.entity.ResponseEntity;
 import org.nuaa.undefined.BigDataEveryWhere.service.ECommerceGoodsService;
@@ -8,6 +9,8 @@ import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Auther: cyw35
@@ -76,5 +79,13 @@ public class ECommerceGoodsController {
         );
     }
 
-
+    //查询商品信息
+    @GetMapping("/goodsInfoList")
+    public @ResponseBody
+    ResponseEntity<ECommerceGoodsEntity> goodsInfoData(String id){
+        List<ECommerceGoodsEntity> res = eCommerceGoodsService.getGoodsInfo(id);
+        return res != null ?
+                new ResponseEntity<>(Response.GET_DATA_SUCCESS_CODE,"获取数据成功",res):
+                new ResponseEntity<>(400, "该商品不存在", 0, null);
+    }
 }

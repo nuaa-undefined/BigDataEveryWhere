@@ -29,4 +29,6 @@ public interface GameUserService {
     public GameAllEntity UserBehaviorInfo();
     //游戏留存信息提要
     public GameAllTwoEntity GameRetentionInfo();
+    //查询用户
+    public List<GameUserEntity> getUserInfo(String id);
 }

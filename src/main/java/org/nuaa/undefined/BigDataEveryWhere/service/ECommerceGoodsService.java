@@ -24,4 +24,6 @@ public interface ECommerceGoodsService {
 
     public int getGoodsNum();
 
+    //商品信息查询
+    public List<ECommerceGoodsEntity> getGoodsInfo(String id);
 }

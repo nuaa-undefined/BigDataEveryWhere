@@ -4,10 +4,7 @@ import org.nuaa.undefined.BigDataEveryWhere.entity.*;
 import org.nuaa.undefined.BigDataEveryWhere.service.GameUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,5 +104,15 @@ public class GameUserController {
                 "获取数据成功",
                 res
         );
+    }
+
+    //用户信息查询
+    @GetMapping("/userInfoList")
+    public @ResponseBody
+    ResponseEntity<GameUserEntity> userInfoData(String id){
+        List <GameUserEntity> res = gameUserService.getUserInfo(id);
+        return res != null ?
+                new ResponseEntity<>(Response.GET_DATA_SUCCESS_CODE,"获取数据成功",res):
+                new ResponseEntity<>(400, "该用户不存在", 0, null);
     }
 }

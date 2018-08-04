@@ -2,6 +2,7 @@ package org.nuaa.undefined.BigDataEveryWhere.service.impl;
 
 import org.nuaa.undefined.BigDataEveryWhere.dao.ECommerceGoodsDao;
 import org.nuaa.undefined.BigDataEveryWhere.entity.ECommerceGoodsEntity;
+import org.nuaa.undefined.BigDataEveryWhere.entity.GameUserEntity;
 import org.nuaa.undefined.BigDataEveryWhere.service.ECommerceGoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,5 +54,12 @@ public class ECommerceGoodsServiceImpl implements ECommerceGoodsService {
     @Override
     public int getGoodsNum() {
         return eCommerceGoodsDao.count();
+    }
+
+    @Override
+    public List<ECommerceGoodsEntity> getGoodsInfo(String id) {
+        String sql = "SELECT * FROM e_commerce_goods WHERE id = '" + id + "'";
+        List<ECommerceGoodsEntity> res = eCommerceGoodsDao.listData(sql,new Object[]{});
+        return res.size() == 0 ? null:res;
     }
 }
