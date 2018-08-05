@@ -1,0 +1,53 @@
+游戏日志分析表
+create table S_game(line string);
+
+load data inpath '/game-2017-01-01-2017-01-07.log'
+overwrite into table  S_game;
+
+create table E_game as
+select user_id,system,version,beginTime,endTime,time
+from (
+    select split(line,"\\s+")[0] as user_id
+          ,split(line,"\\s+")[1] as system
+          ,split(line,"\\s+")[2] as version
+          ,split(line,"\\s+")[3] as beginTime
+          ,split(line,"\\s+")[4] as endTime
+          ,split(line,"\\s+")[5] as time
+from S_game
+) a
+;
+
+计算总用户数
+select count(distinct user_id) from E_game;
+
+计算总登录次数
+select count(*) from E_game;
+
+计算每个用户的登录次数
+select user_id,count(1) as tataltimes from (select user_id from E_game)a group by user_id;
+（0001eaef-3f50-4f9a-9158-b9f096e64028	2
+  000208e3-0b15-48cc-bc87-aaf8d5bc48c4	18）
+
+计算每个用户的总在线时长
+select user_id,SUM(time) from (select user_id,time from E_game)a group by user_id
+（0001eaef-3f50-4f9a-9158-b9f096e64028	144306.0
+  000208e3-0b15-48cc-bc87-aaf8d5bc48c4	447434.0）
+
+用户的总次均登录时长
+select SUM(time)/count(*) from E_game where user_id = '693a8106-30e5-4be6-9b97-74929d6bf476';（29907.3125）
+
+某一天的人均登录时长
+select SUM(time)/count(distinct user_id) from E_game  where begintime like '2017-01-01T%';（11076）
+
+某一天的次均登录时长
+select SUM(time)/count(*) from E_game where begintime like '2017-01-01T%';(24416.7377)
+
+某个小时的登陆数
+select count(*) from E_game where begintime like '%T06%';（6187）
+
+某个系统的使用用户数
+select count(distinct user_id) from E_game where system = 'iOS';（23318）
+
+
+
+

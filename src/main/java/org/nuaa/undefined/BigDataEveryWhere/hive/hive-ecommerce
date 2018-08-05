@@ -1,0 +1,78 @@
+// 电商日志分析建表
+create table ecommerce (id STRING, good_id STRING, region_id STRING, user_id STRING, sex INT, watch_time STRING, buy_time STRING, money DOUBLE, status INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'LINES TERMINATED BY '\n'STORED AS TEXTFILE;
+load data inpath 'user/root/tomax/e-commerce-clean.log'
+overwrite into table ecommerce;
+// 基础数据展示(分页 : 参数limit, page)
+select  * from ecommerce limit limit*(page - 1),limit;
+// 展示各个商品的销量
+ SELECT good_id, COUNT(1) as cnt buy_count FROM (SELECT good_id FROM ecommerce)a GROUP BY good_id;
+// 展示各个用户的购买次数
+ SELECT user_id, COUNT(1) as cnt buy_count FROM (SELECT user_id FROM ecommerce)a GROUP BY user_id;
+// 展示各年份的总交易额
+SELECT year,SUM(money) FROM (SELECT SUBSTR(beg_time, 1, 4) AS year,money FROM ecommerce)a GROUP BY year;
+// 展示各月份的总交易额
+SELECT month,SUM(money) FROM (SELECT SUBSTR(beg_time, 6, 7) AS month,money FROM ecommerce)a GROUP BY month;
+// 金额最高的10笔订单
+select * from ecommerce where status = 1 order by money desc limit 10;
+// 统计用户人数
+SELECT COUNT(DISTINCT user_id) FROM ecommerce;
+// 统计商品数量
+SELECT COUNT(DISTINCT good_id) FROM ecommerce;
+// 获取某年的成交总额
+SELECT SUM(money) from ecommerce where buy_time = ? and status = 1;
+// 获取某个用户的成交总额
+select sum(money) from ecommerce where user_id = ? and status = 1;
+// 获取某个地区的成交总额
+select sum(money) from ecommerce where region_id = ? and status = 1;
+// 获取某样商品的购物车放弃率
+SELECT success / fail FROM (SELECT COUNT(*) AS success FROM e_commerce_log WHERE good_id = ? AND status = 1)a, (SELECT COUNT(*) AS fail FROM e_commerce_log WHERE good_id = ? AND STATUS = 0)b;
+// 获取订单的平均值
+select sum(money) / count(*) from ecommerce;
+// 获取用户消费的平均值
+select sum(money) / count(distinct user_id) from ecommerce where status = 1;
+// 获取男性用户的平均消费
+select sum(money) / count(distinct user_id) from ecommerce where sex = 1 and status = 1;
+// 获取男性用户的消费占比
+select manConsume / sumConsume from (select sum(money) as manConsume from ecommerce where sex = 1 and status = 1)a, (select sum(money) as sumConsume from ecommerce where status = 1);
+
+
+create table ecom(line string);
+
+load data inpath '/ecom.txt'
+overwrite into table ecom;
+
+    create table ecom2 as
+    > select order_id,user_id,province,city_id,way_number,channel,login,logout,money,status
+    > from(
+    >    select split(line,'\\s+')[0] as order_id
+    >          ,split(line,'\\s+')[1] as user_id
+    >          ,split(line,'\\s+')[2] as province
+    >          ,split(line,'\\s+')[3] as city_id
+    >          ,split(line,'\\s+')[4] as way_number
+    >          ,split(line,'\\s+')[5] as channel
+    >          ,split(line,'\\s+')[6] as login
+    >          ,split(line,'\\s+')[7] as logout
+    >          ,split(line,'\\s+')[8] as money
+    >          ,split(line,'\\s+')[9] as status
+    >     from ecom
+    > )a
+    > ;
+
+男性用户、女性用户的分布(1:3）
+select count(*) from ecom2 where channel = "1";(25001)
+select count(*) from ecom2 where channel = "2";(75003)
+
+男性用户、女性用户的消费总额
+select SUM(money) from ecom2 where channel = "1" and status = "1";(4.1867344520999813E8)
+select SUM(money) from ecom2 where channel = "2" and status = "1";(1.2448212190000037E7)
+
+用户消费总额
+select SUM(money) from ecom2 where status = "1";(4.311216573999999E8)
+
+
+年度消费总额
+select SUM(money) from ecom2 where login like '2013%' and status = "1";（3.3167559460000012E7）
+select SUM(money) from ecom2 where login like '2014%' and status = "1";（2.836800204999998E7）
+select SUM(money) from ecom2 where login like '2015%' and status = "1";（3.0114079780000005E7）
+

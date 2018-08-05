@@ -1,8 +1,10 @@
 package org.nuaa.undefined.BigDataEveryWhere.service;
 
 import org.nuaa.undefined.BigDataEveryWhere.entity.ECommerceUserEntity;
+import org.nuaa.undefined.BigDataEveryWhere.entity.ResponseEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: ToMax
@@ -37,4 +39,6 @@ public interface ECommerceUserService {
      * @return
      */
     public int getUserNum();
+
+    public ResponseEntity getUserConsumeRange();
 }

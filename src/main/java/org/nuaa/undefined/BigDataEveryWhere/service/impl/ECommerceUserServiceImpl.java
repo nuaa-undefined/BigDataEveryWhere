@@ -2,11 +2,15 @@ package org.nuaa.undefined.BigDataEveryWhere.service.impl;
 
 import org.nuaa.undefined.BigDataEveryWhere.dao.ECommerceUserDao;
 import org.nuaa.undefined.BigDataEveryWhere.entity.ECommerceUserEntity;
+import org.nuaa.undefined.BigDataEveryWhere.entity.Element;
+import org.nuaa.undefined.BigDataEveryWhere.entity.Response;
+import org.nuaa.undefined.BigDataEveryWhere.entity.ResponseEntity;
 import org.nuaa.undefined.BigDataEveryWhere.mr.ecommerce.ConstCommerceValue;
 import org.nuaa.undefined.BigDataEveryWhere.service.ECommerceUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,5 +51,23 @@ public class ECommerceUserServiceImpl implements ECommerceUserService {
     @Override
     public int getUserNum() {
         return eCommerceUserDao.count();
+    }
+
+    @Override
+    public ResponseEntity getUserConsumeRange() {
+        List<Element<Integer>> data = new ArrayList<>();
+        data.add(new Element<>(">100000元", eCommerceUserDao.count("select count(*) from e_commerce_user where sum_money > 100000", new Object[]{})));
+        data.add(new Element<>("10000-99999元", eCommerceUserDao.count("select count(*) from e_commerce_user where sum_money between 10000 and 99999", new Object[]{})));
+        data.add(new Element<>("1000-9999元", eCommerceUserDao.count("select count(*) from e_commerce_user where sum_money between 1000 and 9999", new Object[]{})));
+        data.add(new Element<>("0-999元", eCommerceUserDao.count("select count(*) from e_commerce_user where sum_money between 0 and 999", new Object[]{})));
+        data.add(new Element<>(">10000元", eCommerceUserDao.count("select count(*) from e_commerce_user where sum_money / success_count > 10000", new Object[]{})));
+        data.add(new Element<>("1000-9999元", eCommerceUserDao.count("select count(*) from e_commerce_user where sum_money / success_count between 1000 and 9999", new Object[]{})));
+        data.add(new Element<>("100-999元", eCommerceUserDao.count("select count(*) from e_commerce_user where sum_money / success_count between 100 and 999", new Object[]{})));
+        data.add(new Element<>("0-99元", eCommerceUserDao.count("select count(*) from e_commerce_user where sum_money / success_count between 0 and 99", new Object[]{})));
+        return new ResponseEntity(
+                Response.GET_DATA_SUCCESS_CODE,
+                "获取数据成功",
+                data
+        );
     }
 }

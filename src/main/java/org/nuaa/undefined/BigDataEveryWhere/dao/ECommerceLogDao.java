@@ -25,4 +25,6 @@ public interface ECommerceLogDao {
      * @return
      */
     public int count(String sql, Object[] keys);
+
+    public double getDouble(String sql, Object[] keys);
 }

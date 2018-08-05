@@ -63,4 +63,10 @@ public class ECommerceUserController {
             Response.GET_DATA_SUCCESS_CODE, "获取数据成功", eCommerceUserService.listData(page, limit)
         );
     }
+
+    @GetMapping("/getUserConsumeRate")
+    public @ResponseBody
+    ResponseEntity<ECommerceUserEntity> getUserConsumeRate() {
+        return eCommerceUserService.getUserConsumeRange();
+    }
 }

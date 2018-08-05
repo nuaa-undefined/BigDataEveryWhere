@@ -21,9 +21,9 @@ public class AppConfig {
     public BasicDataSource dataSource(){
         BasicDataSource ds = new BasicDataSource();
         ds.setDriverClassName("com.mysql.jdbc.Driver");
-        ds.setUrl("jdbc:mysql://192.168.120.101:3306/big_data?useUnicode=true&characterEncoding=utf-8&useSSL=true");
+        ds.setUrl("jdbc:mysql://localhost:3306/big_data?useUnicode=true&characterEncoding=utf-8&useSSL=true");
         ds.setUsername("root");
-        ds.setPassword("123456");
+        ds.setPassword("");
         ds.setInitialSize(3);
         ds.setMaxTotal(200);
         ds.setMaxIdle(50);

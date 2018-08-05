@@ -51,6 +51,24 @@ public class EComYearDistributionEntity {
     private int manUserNum;
     private int womanUserNum;
     private int sumUserNum;
+    private int consumeUserNum;
+    private int activeUserNum;
+
+    public int getConsumeUserNum() {
+        return consumeUserNum;
+    }
+
+    public void setConsumeUserNum(int consumeUserNum) {
+        this.consumeUserNum = consumeUserNum;
+    }
+
+    public int getActiveUserNum() {
+        return activeUserNum;
+    }
+
+    public void setActiveUserNum(int activeUserNum) {
+        this.activeUserNum = activeUserNum;
+    }
 
     public int getManUserNum() {
         return manUserNum;
