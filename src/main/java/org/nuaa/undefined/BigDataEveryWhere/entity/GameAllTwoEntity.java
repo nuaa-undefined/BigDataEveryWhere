@@ -1,5 +1,7 @@
 package org.nuaa.undefined.BigDataEveryWhere.entity;
 
+import java.util.List;
+
 /**
  * @Auther: cyw35
  * @Date: 2018/8/3 21:24

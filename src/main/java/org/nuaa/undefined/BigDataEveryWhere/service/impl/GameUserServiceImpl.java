@@ -145,38 +145,16 @@ public class GameUserServiceImpl implements GameUserService {
 
     @Override
     public GameAllTwoEntity GameRetentionInfo() {
-        GameAllTwoEntity res = new GameAllTwoEntity();
-        int temp1 = 0, temp2 = 0;
-
-        String sql = "SELECT COUNT(*) FROM game_log WHERE os ='Android'";
-        temp1 = gameUserDao.count(sql, new Object[]{});
-        sql = "SELECT COUNT(*) FROM game_log WHERE os ='iOS'";
-        temp2 = gameUserDao.count(sql, new Object[]{});
-        res.setOsRatio(String.valueOf(temp1 / (double) (temp1 + temp2)) + ":" + String.valueOf(temp2 / (double) (temp1 + temp2)));
-        res.setOsRatio("7:3");
-        res.setAverLoginPersonNum(63855);
-        res.setAverLoginTimesNum(24458);
-        double maxTime = 0;
-        String highestTime="";
-        for (int i = 1; i <= 7; i++) {
-            sql = "SELECT SUM(last_time) FROM game_log WHERE begin_time LIKE '2017-01-0" + String.valueOf(i) + "%'";
-            int temp =gameUserDao.count(sql, new Object[]{});
-            sql = "SELECT COUNT(*) FROM game_log WHERE begin_time LIKE '2017-01-0" + String.valueOf(i) + "%'";
-            if (maxTime < temp/(double) gameUserDao.count(sql, new Object[]{})) {
-                maxTime =temp/(double) gameUserDao.count(sql, new Object[]{});
-                highestTime = "2017-01-0" + String.valueOf(i);
-            }
-        }
-        res.setHighestTimesDay(highestTime);
-        res.setAverRetentionRate("29.15%");
-        res.setHighestRetentionDay("47.87%");
-        return res;
+        String sql = "SELECT * FROM game_global_info LIMIT 0,1";
+        List<GameAllTwoEntity> res = gameUserDao.listGlobalData(sql,new Object[]{});
+        System.out.println(res.size());
+        return res.get(0);
     }
 
     @Override
-    public List<GameUserEntity> getUserInfo(String id ) {
+    public List<GameUserEntity> getUserInfo(String id) {
         String sql = "SELECT * FROM game_user WHERE id = '" + id + "'";
-        List<GameUserEntity> res = gameUserDao.listData(sql,new Object[]{});
-        return res.size() == 0 ? null:res;
+        List<GameUserEntity> res = gameUserDao.listData(sql, new Object[]{});
+        return res.size() == 0 ? null : res;
     }
 }

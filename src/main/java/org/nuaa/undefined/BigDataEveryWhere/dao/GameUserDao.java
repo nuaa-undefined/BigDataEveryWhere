@@ -1,5 +1,6 @@
 package org.nuaa.undefined.BigDataEveryWhere.dao;
 
+import org.nuaa.undefined.BigDataEveryWhere.entity.GameAllTwoEntity;
 import org.nuaa.undefined.BigDataEveryWhere.entity.GameUserEntity;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 public interface GameUserDao {
     public List<GameUserEntity> listData(String sql,Object [] keys);
 
+    public List<GameAllTwoEntity> listGlobalData(String sql,Object[] keys);
     public int count();
 
     public int count(String sql, Object[] keys);

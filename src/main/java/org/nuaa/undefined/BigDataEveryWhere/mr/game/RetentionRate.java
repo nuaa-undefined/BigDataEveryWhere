@@ -36,7 +36,7 @@ public class RetentionRate {
 		private Text outputkey = new Text();
 		private float[] oldUser={0,0,0,0,0,0,0};
 		private float[] totalUser={0,0,0,0,0,0,0};
-//
+
 		@Override
 		protected void reduce(Text key, Iterable<Text> values, Context context)
 				throws IOException, InterruptedException {
@@ -75,7 +75,6 @@ public class RetentionRate {
 				}				
 			}		
 		}
-	
 
 		@Override
 		protected void cleanup(Context context)

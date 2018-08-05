@@ -2,6 +2,7 @@ package org.nuaa.undefined.BigDataEveryWhere.dao.impl;
 
 import org.nuaa.undefined.BigDataEveryWhere.dao.DaoHelper;
 import org.nuaa.undefined.BigDataEveryWhere.dao.GameUserDao;
+import org.nuaa.undefined.BigDataEveryWhere.entity.GameAllTwoEntity;
 import org.nuaa.undefined.BigDataEveryWhere.entity.GameUserEntity;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +18,11 @@ public class GameUserDaoImpl extends DaoHelper implements GameUserDao {
     @Override
     public List<GameUserEntity> listData(String sql, Object[] keys) {
         return query(sql,keys,GameUserEntity.class);
+    }
+
+    @Override
+    public List<GameAllTwoEntity> listGlobalData(String sql, Object[] keys) {
+        return query(sql,keys,GameAllTwoEntity.class);
     }
 
     @Override
