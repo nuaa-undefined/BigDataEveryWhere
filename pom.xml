@@ -39,7 +39,7 @@
         <!--mysql 连接驱动-->
         <jdbc.version>5.1.40</jdbc.version>
         <!--hadoop 库-->
-        <hadoop.version>2.7.3</hadoop.version>
+        <hadoop.version>2.10.1</hadoop.version>
         <!--hive-->
         <hive.version>2.3.4</hive.version>
     </properties>
