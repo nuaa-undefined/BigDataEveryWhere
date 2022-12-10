@@ -12,7 +12,7 @@
         <!--javaee版本-->
         <javaee.version>8.0</javaee.version>
         <!-- spring版本号 -->
-        <spring.version>5.0.0.RELEASE</spring.version>
+        <spring.version>6.0.0</spring.version>
         <!--log4j版本号-->
         <log4j.version>2.10.0</log4j.version>
         <!--mybatis-->
